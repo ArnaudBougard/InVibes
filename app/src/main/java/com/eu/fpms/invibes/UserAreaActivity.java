@@ -22,10 +22,10 @@ public class UserAreaActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_area);
-
-        openHelper = new DatabaseHelper(this);
+        final DatabaseHelper databaseHelper = new DatabaseHelper(this);
 
         _etTm = (EditText)findViewById(R.id.etTm);
         _etTM = (EditText)findViewById(R.id.etTM);
@@ -34,8 +34,8 @@ public class UserAreaActivity extends AppCompatActivity {
         _etBm = (EditText)findViewById(R.id.etBm);
         _etBM = (EditText)findViewById(R.id.etBM);
         _etPhone = (EditText)findViewById(R.id.etPhone);
-        _bSave = (Button)findViewById(R.id.bSave);
 
+        _bSave = (Button)findViewById(R.id.bSave);
 
         _tvUsername=(TextView)findViewById(R.id.tvUsername);
 
@@ -50,8 +50,6 @@ public class UserAreaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                db=openHelper.getWritableDatabase();
-
                 String Tmin=_etTm.getText().toString();
                 String Tmax=_etTM.getText().toString();
                 String Hmin=_etHm.getText().toString();
@@ -60,7 +58,7 @@ public class UserAreaActivity extends AppCompatActivity {
                 String Bmax=_etBM.getText().toString();
                 String Phone=_etPhone.getText().toString();
 
-                //insertdata2(username,Tmin, Tmax, Hmin, Hmax, Bmin, Bmax, Phone);
+                databaseHelper.updateUserPreferences(username,Tmin,Tmax,Hmin,Hmax,Bmin,Bmax,Phone);
 
                 Toast.makeText(getApplicationContext(), "Enregistré avec succès !", Toast.LENGTH_LONG).show();
 
@@ -77,27 +75,5 @@ public class UserAreaActivity extends AppCompatActivity {
 
 
     }
-
-    public void insertdata2(String username, String Tmin, String Tmax, String Hmin, String Hmax, String Bmin, String Bmax, String Phone) {
-
-        ContentValues cv = new ContentValues();
-        cv.put(DatabaseHelper.COL_5,Tmin);
-        //cv.put(DatabaseHelper.COL_6,Tmax);
-        //cv.put(DatabaseHelper.COL_7,Hmin);
-        //cv.put(DatabaseHelper.COL_8,Hmax);
-        //cv.put(DatabaseHelper.COL_9,Bmin);
-        //cv.put(DatabaseHelper.COL_10,Bmax);
-        //cv.put(DatabaseHelper.COL_11,Phone);
-
-        System.out.println(DatabaseHelper.COL_5);
-
-
-        //long id = db.insert(DatabaseHelper.TABLE_NAME, null, cv);
-        db.update(DatabaseHelper.TABLE_NAME, cv,"DatabaseHelper.COL_3=" + username,null);
-
-        System.out.println(DatabaseHelper.COL_5);
-    }
-
-
 
 }

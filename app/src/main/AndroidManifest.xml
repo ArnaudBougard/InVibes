@@ -19,6 +19,7 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".UserAreaActivity" />
         <activity android:name=".UserAreaActivity2"></activity>
+        <activity android:name=".ThirdActivityA"></activity>
     </application>
 
 </manifest>

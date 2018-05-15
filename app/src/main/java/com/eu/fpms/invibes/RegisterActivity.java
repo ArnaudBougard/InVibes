@@ -14,8 +14,6 @@ import android.widget.Toast;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    SQLiteOpenHelper openHelper;
-    SQLiteDatabase db;
     Button _bRegister;
     EditText _etName, _etUsername, _etPassword;
     TextView _tvGoLogin;
@@ -24,8 +22,8 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        final DatabaseHelper databaseHelper = new DatabaseHelper(this);
 
-        openHelper = new DatabaseHelper(this);
         _etName = (EditText)findViewById(R.id.etName);
         _etUsername = (EditText)findViewById(R.id.etUsername);
         _etPassword = (EditText)findViewById(R.id.etPassword);
@@ -37,11 +35,14 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                db=openHelper.getWritableDatabase();
                 String name=_etName.getText().toString();
                 String username=_etUsername.getText().toString();
                 String password=_etPassword.getText().toString();
-                insertdata(name,username,password);
+
+                User user = new User(name,username, password);
+
+                databaseHelper.insertUser(user);
+
                 Toast.makeText(getApplicationContext(), "register successfully", Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
@@ -61,16 +62,4 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    public void insertdata(String name, String username, String password) {
-
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DatabaseHelper.COL_2, name);
-        contentValues.put(DatabaseHelper.COL_3, username);
-        contentValues.put(DatabaseHelper.COL_4, password);
-
-        long id = db.insert(DatabaseHelper.TABLE_NAME, null, contentValues);
-
-    }
-
 }
-

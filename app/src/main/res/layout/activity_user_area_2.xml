@@ -29,7 +29,7 @@
                 android:lineSpacingExtra="8sp"
                 android:text="TextView"
                 android:textColor="@android:color/background_dark"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
         </LinearLayout>
 

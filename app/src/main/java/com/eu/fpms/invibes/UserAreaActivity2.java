@@ -22,13 +22,10 @@ public class UserAreaActivity2 extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_area_2);
-
-        openHelper = new DatabaseHelper(this);
-        db = openHelper.getReadableDatabase();
-
-        System.out.println(DatabaseHelper.COL_5);
+        final DatabaseHelper databaseHelper = new DatabaseHelper(this);
 
         _TminValue=(TextView)findViewById(R.id.TminValue);
         _TmaxValue=(TextView)findViewById(R.id.TmaxValue);
@@ -39,13 +36,39 @@ public class UserAreaActivity2 extends AppCompatActivity {
         _PhoneValue=(TextView)findViewById(R.id.PhoneValue);
         _tvUsername=(TextView)findViewById(R.id.tvUsername);
 
-        System.out.println(DatabaseHelper.COL_5);
+        _bBack = (Button)findViewById(R.id.bBack);
 
         Bundle bundle=getIntent().getExtras();
 
         final String username=bundle.getString("username");
 
         _tvUsername.setText(username + ", plusieurs choix s'offrent à vous !");
+
+        User currentUserPref = databaseHelper.fetchUserPref(username);
+
+        _TminValue.setText(currentUserPref.getTmin());
+        _TmaxValue.setText(currentUserPref.getTmax());
+        _HmaxValue.setText(currentUserPref.getHmax());
+        _HminValue.setText(currentUserPref.getHmin());
+        _BminValue.setText(currentUserPref.getBmin());
+        _BmaxValue.setText(currentUserPref.getBmax());
+        _PhoneValue.setText(currentUserPref.getPhone());
+
+        _bBack.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                Bundle bundle = new Bundle();
+                bundle.putString("username", username);
+                Intent intent = new Intent(UserAreaActivity2.this, UserAreaActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+
+            }
+
+        });
+
 
         //Cursor c = db.rawQuery("select " + DatabaseHelper.COL_5 + " from " + DatabaseHelper.TABLE_NAME + " where " + DatabaseHelper.COL_3 + "=?", new String[]{username});
         //if (c.moveToFirst()) {

@@ -14,8 +14,7 @@ import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
 
-    SQLiteOpenHelper openHelper;
-    SQLiteDatabase db;
+    SQLiteDatabase bdd;
     Cursor cursor;
     Button _bLogin;
     EditText _etUsername, _etPassword;
@@ -26,34 +25,35 @@ public class LoginActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        final DatabaseHelper databaseHelper = new DatabaseHelper(this);
 
         _etUsername = (EditText)findViewById(R.id.etUsername);
         _etPassword = (EditText)findViewById(R.id.etPassword);
         _bLogin=(Button)findViewById(R.id.bLogin);
         _tvRegisterHere=(TextView)findViewById(R.id.tvRegisterHere);
-        openHelper = new DatabaseHelper(this);
-        db = openHelper.getReadableDatabase();
 
         _bLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = _etUsername.getText().toString();
-                String password = _etPassword.getText().toString();
 
-                cursor = db.rawQuery("SELECT *FROM " + DatabaseHelper.TABLE_NAME + " WHERE " + DatabaseHelper.COL_3 + "=? AND " + DatabaseHelper.COL_4 + "=?", new String[]{username, password});
-                if (cursor != null) {
-                    if (cursor.getCount() > 0) {
-                        Toast.makeText(getApplicationContext(), "Login Success !", Toast.LENGTH_SHORT).show();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("username", username);
-                        Intent intent = new Intent(LoginActivity.this, UserAreaActivity.class);
-                        intent.putExtras(bundle);
-                        startActivity(intent);
+            String username = _etUsername.getText().toString();
+            String password = _etPassword.getText().toString();
 
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Error, wrong combination of Username and Password", Toast.LENGTH_SHORT).show();
-                    }
+            cursor = databaseHelper.LoginCheck(username,password);
+            if (cursor != null) {
+                if (cursor.getCount() > 0) {
+                    Toast.makeText(getApplicationContext(), "Connecté avec succès !", Toast.LENGTH_SHORT).show();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("username", username);
+                    Intent intent = new Intent(LoginActivity.this, UserAreaActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Erreur, mauvaise combinaison ...", Toast.LENGTH_SHORT).show();
                 }
+            }
+
             }
         });
 
