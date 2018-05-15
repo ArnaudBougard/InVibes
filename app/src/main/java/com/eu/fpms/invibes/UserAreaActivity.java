@@ -14,8 +14,6 @@ import android.widget.Toast;
 
 public class UserAreaActivity extends AppCompatActivity {
 
-    SQLiteOpenHelper openHelper;
-    SQLiteDatabase db;
     TextView _tvUsername;
     EditText _etTm, _etTM, _etHm, _etHM, _etBm, _etBM, _etPhone;
     Button _bSave;

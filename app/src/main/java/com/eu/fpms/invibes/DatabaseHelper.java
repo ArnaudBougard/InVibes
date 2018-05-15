@@ -108,7 +108,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         }
 
-    public User fetchUserPref( String username ) {
+    public User fetchUserInfo( String username ) {
         Cursor c = this.getReadableDatabase().query(TABLE_NAME, new String[] { COL_ID, COL_NAME, COL_USERNAME, COL_PASSWORD, COL_TMIN, COL_TMAX,
                 COL_HMIN, COL_HMAX, COL_BMIN, COL_BMAX, COL_PHONE }, COL_USERNAME + " =? ", new String[]{username}, null, null, null, null);
 
@@ -138,7 +138,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     currentUser.setPhone(c.getString(NUM_COL_PHONE));
 
                 }while(c.moveToNext());
-                
+
             }
         }
 

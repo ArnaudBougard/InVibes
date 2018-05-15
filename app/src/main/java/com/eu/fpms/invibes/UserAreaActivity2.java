@@ -37,6 +37,8 @@ public class UserAreaActivity2 extends AppCompatActivity {
         _tvUsername=(TextView)findViewById(R.id.tvUsername);
 
         _bBack = (Button)findViewById(R.id.bBack);
+        _bGoA = (Button)findViewById(R.id.bGoA);
+        _bGoB = (Button)findViewById(R.id.bGoB);
 
         Bundle bundle=getIntent().getExtras();
 
@@ -44,7 +46,7 @@ public class UserAreaActivity2 extends AppCompatActivity {
 
         _tvUsername.setText(username + ", plusieurs choix s'offrent à vous !");
 
-        User currentUserPref = databaseHelper.fetchUserPref(username);
+        User currentUserPref = databaseHelper.fetchUserInfo(username);
 
         _TminValue.setText(currentUserPref.getTmin());
         _TmaxValue.setText(currentUserPref.getTmax());
@@ -69,13 +71,20 @@ public class UserAreaActivity2 extends AppCompatActivity {
 
         });
 
+        _bGoA.setOnClickListener(new View.OnClickListener() {
 
-        //Cursor c = db.rawQuery("select " + DatabaseHelper.COL_5 + " from " + DatabaseHelper.TABLE_NAME + " where " + DatabaseHelper.COL_3 + "=?", new String[]{username});
-        //if (c.moveToFirst()) {
-        //    TminValue = c.getString(c.getColumnIndex("content"));
-        //}
-        //_TminValue.setText(TminValue);
+            @Override
+            public void onClick(View v) {
 
+                Bundle bundle = new Bundle();
+                bundle.putString("username", username);
+                Intent intent = new Intent(UserAreaActivity2.this, ThirdActivityA.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+
+            }
+
+        });
 
     }
 }
